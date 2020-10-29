@@ -21,7 +21,6 @@ class Qpost:
 		- Token of said user
 		"""
 		self.token = token
-		self.me = self.__me()
 
 	def __request(self, endpoint: str, params: dict, method: str):
 		baseurl = 'https://qpostapp.com/api'
@@ -69,7 +68,7 @@ class Qpost:
 		endpoint = '/notifications'
 		method = 'GET'
 		resp = self.__request(endpoint, params, method)
-		return [Notification(_) for _ in resp.json()]
+		return [Notification(_, self) for _ in resp.json()]
 	
 	def get_birthday(self, date):
 		'''Gets birthdays of users followed by current user'''
@@ -86,13 +85,17 @@ class Qpost:
 		resp = self.__paramrequest(endpoint, params, method)
 		return User(resp.json(), self)
 	
-	def post_status(self, message: str, nsfw: bool = False, attachments: list = None, parent: int = None):
+	def post_status(self, message: str, is_nsfw: bool = False, attachments: list = None, parent:int = None):
 		'''Creates a new FeedEntry with either the type POST or REPLY, depending on whether the parent parameter is present'''
 		endpoint = '/status'
-		params = {'message': message, 'nsfw': nsfw, 'attachments': attachments, 'parent': parent}
 		method = 'POST'
+		params = {'message': message, 'nsfw': is_nsfw}
+		if attachments is not None:
+			params['attachments'] = attachments
+		if parent is not None:
+			params['parent'] = parent
 		resp = self.__request(endpoint, params, method)
-		return resp.json()
+		return FeedEntry(resp.json(), self)
 	
 	def delete_status(self, id_: int):
 		'''Deletes a specific FeedEntry by it's ID (type has to be POST or REPLY)'''
@@ -106,7 +109,7 @@ class Qpost:
 		endpoint = '/status'
 		params = {'id': id_}
 		method = 'GET'
-		resp = self.__request(endpoint, params, method)
+		resp = self.__paramrequest(endpoint, params, method)
 		return FeedEntry(resp.json(), self)
 
 	def block(self, targetid):
@@ -162,7 +165,7 @@ class Qpost:
 		resp = self.__paramrequest(endpoint, params, method)
 		return [Favorite(_, self) for _ in resp.json()]
 	
-	def get_feed(self, userid, max_ = None, min_ = None, type_ = 'posts'):
+	def get_feeds(self, userid, max_ = None, min_ = None, type_ = 'posts'):
 		'''Gets entries on a feed, by specific parameters'''
 		if (max_ and min_):
 			print("Can't set both max and min")
@@ -178,11 +181,12 @@ class Qpost:
 		endpoint = '/follow'
 		params = {'from': from_, 'to': to}
 		method = 'GET'
-		resp = self.__request(endpoint, params, method)
+		resp = self.__paramrequest(endpoint, params, method)
 		try:
 			follow = Follow(resp.json(), self)
 		except KeyError:
 			follow = resp.json()
+		return follow
 	
 	def get_follows(self, from_, to, max_ = None):
 		'''Gets all follow relationships for a specific user'''
@@ -198,15 +202,13 @@ class Qpost:
 		params = {'to': to}
 		method = 'POST'
 		resp = self.__request(endpoint, params, method)
-		return resp.json()['status']
 	
 	def unfollow(self, to):
 		'''Deletes a follow relationship from the current user to a specific FeedEntry'''
-		endpoint = '/follower'
+		endpoint = '/follow'
 		params = {'to': to}
 		method = 'DELETE'
 		resp = self.__request(endpoint, params, method)
-		return resp.json()['status']
 	
 	def known_followers(self, targetid, offset = None, limit = None):
 		'''Gets all followers, the current user follows for the target user'''
@@ -267,7 +269,7 @@ class Qpost:
 		resp = self.search("user", query, offset, limit)
 		return [User(_, self) for _ in resp.json()]
 	
-	def search_feed(self, query: str, offset: int = None, limit: int = None):
+	def search_feeds(self, query: str, offset: int = None, limit: int = None):
 		'''Searches for specific posts on qpost'''
 		resp = self.search("post", query, offset, limit)
 		return [FeedEntry(_, self) for _ in resp.json()]
@@ -278,7 +280,7 @@ class Qpost:
 		params = {'post': postid}
 		method = 'POST'
 		resp = self.__request(endpoint, params, method)
-		return FeedEntry(self.json(), self)
+		return FeedEntry(resp.json(), self)
 
 	def unshare(self, postid):
 		'''Deletes a share from the current user to a specific FeedEntry'''
@@ -286,9 +288,8 @@ class Qpost:
 		params = {'post': postid}
 		method = 'DELETE'
 		resp = self.__request(endpoint, params, method)
-		return FeedEntry(resp.json(), self)
 
-	def __me(self):
+	def me(self):
 		'''Gets the curent User object'''
 		endpoint = '/token/verify'
 		method = 'POST'

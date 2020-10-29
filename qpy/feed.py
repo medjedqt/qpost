@@ -6,9 +6,9 @@ class FeedEntry:
 	def __init__(self, feeddict: dict, bot):
 		'''Represents qpost's FeedEntry object'''
 		self.id = feeddict['id']
-		self.user = User(feeddict['user'])
+		self.user = User(feeddict['user'], bot)
 		self.text = feeddict['text']
-		self.parent = FeedEntry(feeddict['parent']) if feeddict['parent'] is not None else None
+		self.parent = FeedEntry(feeddict['parent'], bot) if feeddict['parent'] is not None else None
 		self.type = feeddict['type']
 		self.is_nsfw = feeddict['nsfw']
 		self.attachments = [MediaFile(_) for _ in feeddict['attachments']] if feeddict['attachments'] is not None else None
@@ -22,6 +22,18 @@ class FeedEntry:
 	
 	def delete(self):
 		self.bot.delete_status(self.id)
+	
+	def favorite(self):
+		return self.bot.favorite(self.id)
+	
+	def unfavorite(self):
+		self.bot.unfavorite(self.id)
+	
+	def share(self):
+		return self.bot.share(self.id)
+	
+	def unshare(self):
+		self.bot.unshare(self.id)
 
 class MediaFile:
 	def __init__(self, mediadict: dict):
@@ -38,7 +50,7 @@ class MediaBuilder:
 
 	def add(self, imgpath: str):
 		with open(imgpath, 'rb') as imgfile:
-			encoded_string = base64.b64encode(imgfile.read())
+			encoded_string = base64.b64encode(imgfile.read()).decode('utf-8')
 		self.medias.append(encoded_string)
 	
 	def get(self):

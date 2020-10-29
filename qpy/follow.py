@@ -1,11 +1,11 @@
 from .user import User
 
 class Follow:
-	def __init__(self, followdict: dict):
+	def __init__(self, followdict: dict, bot):
 		'''Represents qpost's Follow object'''
 		self.id = followdict['id']
-		self.sender = User(followdict['sender'])
-		self.receiver = User(followdict['receiver'])
+		self.sender = User(followdict['sender'], bot)
+		self.receiver = User(followdict['receiver'], bot)
 		self.time_created = followdict['time']
 
 class FollowRequest:

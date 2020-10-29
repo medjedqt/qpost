@@ -1,6 +1,8 @@
 __pycache__
 *.egg-info
 *.json
+*.jpg
+*.png
 /build/
 /dist/
 out.py
