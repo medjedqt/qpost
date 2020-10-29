@@ -4,8 +4,8 @@ with open("README.md", "r") as f:
 	long_description = f.read()
 
 setuptools.setup(
-	name="qpy",
-	version="0.0.1",
+	name="qpost",
+	version="0.0.1a1",
 	author="medjed",
 	author_email="imoshugi01@gmail.com",
 	description="A basic qpost API wrapper",

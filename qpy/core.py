@@ -1,4 +1,3 @@
-import json
 import requests
 
 from .block import *
@@ -90,7 +89,7 @@ class Qpost:
 	def post_status(self, message: str, nsfw: bool = False, attachments: list = None, parent: int = None):
 		'''Creates a new FeedEntry with either the type POST or REPLY, depending on whether the parent parameter is present'''
 		endpoint = '/status'
-		params = {'message': message, 'nsfw': nsfw}
+		params = {'message': message, 'nsfw': nsfw, 'attachments': attachments, 'parent': parent}
 		method = 'POST'
 		resp = self.__request(endpoint, params, method)
 		return resp.json()
