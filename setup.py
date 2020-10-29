@@ -5,7 +5,7 @@ with open("README.md", "r") as f:
 
 setuptools.setup(
 	name="qpost",
-	version="0.0.1a1",
+	version="0.0.1a2",
 	author="medjed",
 	author_email="imoshugi01@gmail.com",
 	description="A basic qpost API wrapper",
