@@ -4,6 +4,18 @@
 
 A basic python wrapper for [qpost](https://qpostapp.com)
 
+## Installing
+
+### Python 3.5 or higher is recommended
+
+```shell
+# Linux/macOS
+python3 -m install pip install -U qpost
+
+# Windows
+py -3 -m pip install -U qpost
+```
+
 ## Example
 
 ```py
