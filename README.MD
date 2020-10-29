@@ -1,6 +1,6 @@
 # qpy
 
-A basic python wrapper for [qpost](qpostapp.com)
+A basic python wrapper for [qpost](https://qpostapp.com)
 
 ## Example
 

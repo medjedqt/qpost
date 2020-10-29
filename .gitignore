@@ -1,5 +1,6 @@
-data.json
-error.json
-out.py
-/.vscode/
 __pycache__
+*.egg-info
+*.json
+/build/
+/dist/
+out.py
