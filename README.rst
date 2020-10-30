@@ -1,26 +1,35 @@
-# qpy
+***
+qpy
+***
 
-![Upload Python Package](https://github.com/medjedqt/qpost/workflows/Upload%20Python%20Package/badge.svg)
+|pypi-build|
 
-A basic python wrapper for [qpost](https://qpostapp.com)
+.. |pypi-build| image:: https://github.com/medjedqt/qpost/workflows/Upload%20Python%20Package/badge.svg
 
-## Installing
+A basic python wrapper for `qpost <https://qpostapp.com>`_
 
-### Python 3.5 or higher is recommended
+Installing
+##########
 
-```shell
-# Linux/macOS
-python3 -m install pip install -U qpost
+Python 3.5 or higher is recommended
+***********************************
 
-# Windows
-py -3 -m pip install -U qpost
-```
+.. code-block:: console
 
-## Example
+	# Linux/macOS
+	python3 -m install pip install -U qpost
 
-```py
-from qpy import Qpost
+	# Windows
+	py -3 -m pip install -U qpost
 
-bot = Qpost("TOKEN")
-bot.post_status("Sent from Samsung Smart Fridge")
-```
+
+Example
+#######
+
+::
+
+	from qpy import Qpost
+
+	bot = Qpost("TOKEN")
+	bot.post_status("Sent from Samsung Smart Fridge")
+
