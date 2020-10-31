@@ -37,6 +37,7 @@ Example
 	:maxdepth: 2
 	
 	intro
+	examples
 	qpost
 	feed
 	media

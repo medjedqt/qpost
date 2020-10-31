@@ -62,7 +62,7 @@ class MediaFile:
 		self.time_created = mediadict['time'] #: str: The timestamp of when this :obj:`MediaFile` was created
 
 class MediaBuilder:
-	'''A utility class to help you turn any image into base64 strings'''
+	'''A utility class to help you turn image files into base64 string lists'''
 	def __init__(self):
 		self.medias = list() #: list: List of medias to be sent
 
