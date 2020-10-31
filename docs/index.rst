@@ -1,3 +1,4 @@
+
 ***
 qpy
 ***
@@ -11,8 +12,7 @@ A basic python wrapper for `qpost <https://qpostapp.com>`_
 Installing
 ##########
 
-Python 3.5 or higher is recommended
-***********************************
+**Python 3.5 or higher is recommended**
 
 .. code-block:: console
 
@@ -33,3 +33,11 @@ Example
 	bot = Qpost("TOKEN")
 	bot.post_status("Sent from Samsung Smart Fridge")
 
+.. toctree::
+	:maxdepth: 2
+	
+	intro
+	qpost
+	feed
+	media
+	user

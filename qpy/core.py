@@ -11,15 +11,13 @@ from .error import *
 
 
 class Qpost:
+	"""Represents the connection of the user to qpost
+
+	Args:
+		token (str): Token of said user
+
+	"""
 	def __init__(self, token: str):
-		"""
-		Represents the connection of the user to qpost
-		```
-		Attributes
-		~~~~~~~~~~
-		token : str
-		- Token of said user
-		"""
 		self.token = token
 
 	def __request(self, endpoint: str, params: dict, method: str):
@@ -40,37 +38,45 @@ class Qpost:
 			raise QHTTPException(resp)
 		return resp
 	
-	def get_badge(self):
-		'''Get information for the badges in the top navigation bar for the current user'''
+	def get_badges(self):
+		"""Get information for the badges in the top navigation bar for the current use
+
+		Returns:
+			dict
+		"""
 		endpoint= '/badgestatus'
 		method = 'GET'
 		resp = self.__request(endpoint, None, method)
 		return resp.json()
 	
-	def clear_badge(self, type_: str):
-		'''Clears all unread items for a specific type'''
+	def __clear_badge(self, type_: str):
+		"""Clears all unread items for a specific type"""
 		endpoint = '/badgestatus'
 		params = {'type': type_}
 		method = 'DELETE'
-		resp = self.__request(endpoint, params, method)
+		self.__request(endpoint, params, method)
 
 	def clear_notifications(self):
-		'''Clears all unread notifications'''
-		self.clear_badge('notifications')
+		"""Clears all unread notifications"""
+		self.__clear_badge('notifications')
 	
 	def clear_messages(self):
-		'''Clears all unread messages'''
-		self.clear_badge('messages')
+		"""Clears all unread messages"""
+		self.__clear_badge('messages')
 	
 	def get_notifications(self, max_: int):
-		'''Gets notification for the user'''
+		"""Gets notifications for the user
+
+		Returns:
+			list[Notification]
+		"""
 		params = {'max': max_}
 		endpoint = '/notifications'
 		method = 'GET'
 		resp = self.__request(endpoint, params, method)
 		return [Notification(_, self) for _ in resp.json()]
 	
-	def get_birthday(self, date):
+	def _get_birthday(self, date):
 		'''Gets birthdays of users followed by current user'''
 		endpoint = '/birthdays'
 		params = {'date': date}
@@ -78,7 +84,14 @@ class Qpost:
 		self.__request(endpoint, params, method)
 
 	def get_user(self, user: str):
-		'''Gets a User object by their username'''
+		'''Gets a User object by their username
+		
+		Args:
+			user (str): username of the user
+
+		Returns:
+			User
+		'''
 		endpoint = '/user'
 		params = {'user': user}
 		method = 'GET'
@@ -86,7 +99,17 @@ class Qpost:
 		return User(resp.json(), self)
 	
 	def post_status(self, message: str, is_nsfw: bool = False, attachments: list = None, parent:int = None):
-		'''Creates a new FeedEntry with either the type POST or REPLY, depending on whether the parent parameter is present'''
+		'''Creates a new FeedEntry with either the type POST or REPLY, depending on whether the parent parameter is present
+		
+		Args:
+			message (str): Content to be sent
+			is_nsfw (bool, optional): A flag to mark your content as nsfw. Default to False
+			attachments (list, optional): A list consisting of base64 strings (can be constructed with MediaBuilder)
+			parent (int, optional): id of a status to be replied to
+		
+		Returns:
+			:obj:`FeedEntry`
+		'''
 		endpoint = '/status'
 		method = 'POST'
 		params = {'message': message, 'nsfw': is_nsfw}
@@ -98,36 +121,59 @@ class Qpost:
 		return FeedEntry(resp.json(), self)
 	
 	def delete_status(self, id_: int):
-		'''Deletes a specific FeedEntry by it's ID (type has to be POST or REPLY)'''
+		'''Deletes a specific FeedEntry by it's ID (type has to be POST or REPLY)
+		
+		Args:
+			id_ (int): id of the status to be removed
+		'''
 		endpoint = '/status'
 		params = {'id': id_}
 		method = 'DELETE'
-		resp = self.__request(endpoint, params, method)
+		self.__request(endpoint, params, method)
 	
 	def get_status(self, id_: int):
-		'''Gets a specific FeedEntry by it's ID (type has to be POST or REPLY)'''
+		'''Gets a specific FeedEntry by it's ID (type has to be POST or REPLY)
+		
+		Args:
+			id_ (int): id of the status to get
+		
+		Returns:
+			FeedEntry
+		'''
 		endpoint = '/status'
 		params = {'id': id_}
 		method = 'GET'
 		resp = self.__paramrequest(endpoint, params, method)
 		return FeedEntry(resp.json(), self)
 
-	def block(self, targetid):
-		'''Creates a new Block from the current user to a specific user'''
+	def block(self, targetid: int):
+		'''Creates a new Block from the current user to a specific user
+		
+		Args:
+			targetid (int): id of a User to be blocked
+		'''
 		endpoint = '/block'
 		params = {'target': targetid}
 		method = 'POST'
 		resp = self.__request(endpoint, params, method)
 
 	def unblock(self, targetid: int):
-		'''Deletes a Block from the current user to a specific user'''
+		'''Deletes a Block from the current user to a specific user
+		
+		Args:
+			targeitd (id): id of a blocked User to be unblocked
+		'''
 		endpoint = '/block'
 		params = {'target': targetid}
 		method = 'DELETE'
-		resp = self.__request(endpoint, params, method)
+		self.__request(endpoint, params, method)
 
 	def get_block(self, targetid: int):
-		'''Get information of a block created by the current user, targeting a specific user'''
+		'''Get information of a block created by the current user, targeting a specific user
+		
+		Returns:
+			Block
+		'''
 		endpoint = '/block'
 		params = {'target': targetid}
 		method = 'GET'
@@ -135,7 +181,14 @@ class Qpost:
 		return Block(resp.json(), self)
 
 	def get_blocks(self, max_: int):
-		'''Gets all blocked users for the current user'''
+		'''Gets all blocked users for the current user
+		
+		Args:
+			max_ (int): The maximum blocks to look for
+		
+		Returns:
+			list[:obj:`Notification`]
+		'''
 		endpoint = '/blocks'
 		params = {'max': max_}
 		method = 'GET'
@@ -143,30 +196,59 @@ class Qpost:
 		return [Block(_, self) for _ in resp.json()]
 
 	def favorite(self, feedid):
-		'''Creates a new Favorite from the current user to a specific FeedEntry'''
+		'''Creates a new Favorite from the current user to a specific FeedEntry
+		
+		Args:
+			feedid (int): id of the status to be favorited
+		
+		Returns:
+			Favorite
+		'''
 		endpoint = '/favorite'
 		params = {'post': feedid}
 		method = 'POST'
 		resp = self.__request(endpoint, params, method)
 		return Favorite(resp.json(), self)
 	
-	def unfavorite(self, feedid):
-		'''Deletes a Favorite from the current user to a specific FeedEntry'''
+	def unfavorite(self, feedid: int):
+		'''Deletes a Favorite from the current user to a specific FeedEntry
+		
+		Args:
+			feedid (int): The ID of the target FeedEntry
+		'''
 		endpoint = '/favorite'
 		params = {'post': feedid}
 		method = 'DELETE'
-		resp = self.__request(endpoint, params, method)
+		self.__request(endpoint, params, method)
 
 	def get_favorites(self, userid: int, max_: int):
-		'''Gets all created favorites for a specific User'''
+		'''Gets all created favorites for a specific :obj:`User`
+		
+		Args:
+			userid (int): The ID of the user to look for
+			max_ (int): The maximum ID for favorites to look for
+		
+		Returns:
+			list[:obj:`Favorite`]
+		'''
 		endpoint = '/favorites'
 		params = {'user': userid, 'max': max_}
 		method = 'GET'
 		resp = self.__paramrequest(endpoint, params, method)
 		return [Favorite(_, self) for _ in resp.json()]
 	
-	def get_feeds(self, userid, max_ = None, min_ = None, type_ = 'posts'):
-		'''Gets entries on a feed, by specific parameters'''
+	def get_feeds(self, userid: int, max_: int = None, min_: int = None, type_: str = 'posts'):
+		'''Gets entries on a feed, by specific parameters
+		
+		Args:
+			userid (int): The ID of the user to filter the feed entries by
+			max_ (int): The maximum ID for feed entries to look for (can not be combined with min\_)
+			min_ (int): The minimum ID for feed entries to look for (can not be combined with max\_)
+			type_ (str, optional): The type of feed entries to load, either posts or replies, defaults to posts
+		
+		Returns:
+			list[:obj:`FeedEntry`]
+		'''
 		if (max_ and min_):
 			print("Can't set both max and min")
 			return 
@@ -176,8 +258,16 @@ class Qpost:
 		resp = self.__request(endpoint, params, method)
 		return [FeedEntry(_, self) for _ in resp.json()]
 	
-	def get_follow(self, from_, to):
-		'''Gets info about a specific follow relationship'''
+	def get_follow(self, from_: int, to: int):
+		'''Gets info about a specific follow relationship
+		
+		Args:
+			from_ (int): The ID of the sending :obj:`User`
+			to (int): The ID of the target :obj:`User`
+		
+		Returns:
+			:obj:`Follow`
+		'''
 		endpoint = '/follow'
 		params = {'from': from_, 'to': to}
 		method = 'GET'
@@ -188,30 +278,56 @@ class Qpost:
 			follow = resp.json()
 		return follow
 	
-	def get_follows(self, from_, to, max_ = None):
-		'''Gets all follow relationships for a specific user'''
+	def get_follows(self, from_: int, to: int, max_: int = None):
+		'''Gets all follow relationships for a specific user
+		
+		Args:
+			from_ (int): The ID of the user to look for
+			to (int): The ID of the user to look for
+			max_ (int, optional): The maximum ID for follows to look for
+		
+		Returns:
+			list[:obj:`Follow`]
+		'''
 		endpoint = '/follows'
 		params = {'from': from_, 'to': to, 'max': max_}
 		method = 'GET'
 		resp = self.__paramrequest(endpoint, params, method)
 		return [Follow(_, self) for _ in resp.json()]
 	
-	def follow(self, to):
-		'''Creates a new Follow from the current user to a specific user'''
+	def follow(self, to: int):
+		'''Creates a new Follow from the current user to a specific user
+		
+		Args:
+			to (int): The ID of the target :obj:`User`
+		'''
 		endpoint = '/follow'
 		params = {'to': to}
 		method = 'POST'
-		resp = self.__request(endpoint, params, method)
+		self.__request(endpoint, params, method)
 	
-	def unfollow(self, to):
-		'''Deletes a follow relationship from the current user to a specific FeedEntry'''
+	def unfollow(self, to: int):
+		'''Deletes a follow relationship from the current user to a specific FeedEntry
+		
+		Args:
+			to (int): The ID of the target :obj:`User`
+		'''
 		endpoint = '/follow'
 		params = {'to': to}
 		method = 'DELETE'
 		resp = self.__request(endpoint, params, method)
 	
-	def known_followers(self, targetid, offset = None, limit = None):
-		'''Gets all followers, the current user follows for the target user'''
+	def known_followers(self, targetid: int, offset: int = None, limit: int = None):
+		'''Gets all followers, the current user follows for the target user
+		
+		Args:
+			targetid (int): The ID of the target user
+			offset (int, optional): The amount of users to skip in the query
+			limit (int, optional): The maximum amount of users to return
+		
+		Returns:
+			list[:obj:`User`]
+		'''
 		endpoint = '/followersyouknow'
 		params = {'target': targetid, 'offset': offset, 'limit': limit}
 		method = 'GET'
@@ -229,15 +345,30 @@ class Qpost:
 		resp = self.__request(endpoint, params, method)
 	
 	def accept_follow_request(self, id_: int):
-		'''Accepts a follow request'''
+		'''Accepts a follow request
+		
+		Args:
+			id_ (int): The ID of the target FollowRequest
+		'''
 		self.__follow_request_action(id_, "accept")
 	
 	def decline_follow_request(self, id_: int):
-		'''Declines a follow request'''
+		'''Declines a follow request
+		
+		Args:
+			id_ (int): The ID of the target FollowRequest
+		'''
 		self.__follow_request_action(id_, "decline")
 	
 	def get_follow_requests(self, max_: int):
-		'''Gets all open follow requests for a specific user'''
+		'''Gets all open follow requests for a specific user
+		
+		Args:
+			id_ (int): The maximum ID for follow requests to look for
+		
+		Returns:
+			list[:obj:`FollowRequest`]
+		'''
 		endpoint = '/followRequest'
 		params = {'max': max_}
 		method = 'GET'
@@ -245,7 +376,15 @@ class Qpost:
 		return [FollowRequest(_, self) for _ in resp.json()]
 	
 	def get_replies(self, feedid: int, page: int):
-		'''Gets all replies to the specified status'''
+		'''Gets all replies to the specified status
+
+		Args:
+			feedid (int): The ID of the status to look for
+			page: Used for pagination
+		
+		Returns:
+			list[list[:obj:`Notification`]]
+		'''
 		endpoint = '/replies'
 		params = {'feedEntry': feedid, 'page': page}
 		method = 'GET'
@@ -256,7 +395,7 @@ class Qpost:
 			batches.append(replies)
 		return batches
 	
-	def search(self, type_: str, query: str, offset: int = None, limit: int = None):
+	def _search(self, type_: str, query: str, offset: int = None, limit: int = None):
 		'''Searches for specific content on qpost'''
 		endpoint = '/search'
 		params = {'type': type_, 'query': query, 'offset': offset, 'limit': limit}
@@ -265,32 +404,65 @@ class Qpost:
 		return resp
 	
 	def search_users(self, query: str, offset: int = None, limit: int = None):
-		'''Searches for specific users on qpost'''
-		resp = self.search("user", query, offset, limit)
+		'''Searches for specific users on qpost
+		
+		Args:
+			query (str): The search query to use
+			offset (int, optional): The offset to use for the query
+			limit (int, optional): The maximum objects to return
+		
+		Returns:
+			list[:obj:`User`]
+		'''
+		resp = self._search("user", query, offset, limit)
 		return [User(_, self) for _ in resp.json()]
 	
 	def search_feeds(self, query: str, offset: int = None, limit: int = None):
-		'''Searches for specific posts on qpost'''
-		resp = self.search("post", query, offset, limit)
+		'''Searches for specific posts on qpost
+		
+		Args:
+			query (str): The search query to use
+			offset (int, optional): The offset to use for the query
+			limit (int, optional): The maximum objects to return
+		
+		Returns:
+			list[:obj:`FeedEntry`]
+		'''
+		resp = self._search("post", query, offset, limit)
 		return [FeedEntry(_, self) for _ in resp.json()]
 
-	def share(self, postid):
-		'''Creates a new share from the current user to a specific FeedEntry'''
+	def share(self, postid: int):
+		'''Creates a new share from the current user to a specific FeedEntry
+		
+		Args:
+			postid (int): The ID of the target FeedEntry
+		
+		Returns:
+			:obj:`FeedEntry`
+		'''
 		endpoint = '/share'
 		params = {'post': postid}
 		method = 'POST'
 		resp = self.__request(endpoint, params, method)
 		return FeedEntry(resp.json(), self)
 
-	def unshare(self, postid):
-		'''Deletes a share from the current user to a specific FeedEntry'''
+	def unshare(self, postid: int):
+		'''Deletes a share from the current user to a specific FeedEntry
+		
+		Args:
+			postid (int): The ID of the target FeedEntry (parent)
+		'''
 		endpoint = '/share'
 		params = {'post': postid}
 		method = 'DELETE'
 		resp = self.__request(endpoint, params, method)
 
 	def me(self):
-		'''Gets the curent User object'''
+		'''Gets the curent User object
+		
+		Returns:
+			:obj:`User`
+		'''
 		endpoint = '/token/verify'
 		method = 'POST'
 		resp = self.__request(endpoint, None, method)
