@@ -1,25 +1,25 @@
 class User:
 	'''Represents a qpost User object'''
 	def __init__(self, userdict: dict, bot):
-		self.id = userdict['id'] #: The unique identifier of this user
-		self.display_name = userdict['displayName'] #: The display name of this user
-		self.username = userdict['username'] #: The username/"@-handle" of this user
-		self.avatar_url = userdict['avatarURL'] #: The URL of this user's avatar
-		self.header = userdict['header'] #: The URL of this user's header image
-		self.bio = userdict['bio'] #: The biography of this user
-		self.birthday = userdict['birthday'] #: The birthday date of this user in the format "Y-m-d"
-		self.privacy_level = userdict['privacyLevel'] #: The privacy level of this user, one of these values; PUBLIC / PRIVATE / CLOSED
-		self.time_created = userdict['time'] #: The timestamp of when this user was created
-		self.is_verified = userdict['verified'] #: Whether or not this user has a verified badge
-		self.is_suspended = userdict['suspended'] #: Whether or not this user's account was suspended
-		self.total_posts = userdict['totalPostCount'] #: The total amount of feed entries this user has created
-		self.total_following = userdict['followingCount'] #: The amount of users this user follows
-		self.total_followers = userdict['followerCount'] #: The amount of users that follow this user
-		self.total_favorites = userdict['favoritesCount'] #: The amount of posts this user has favorited
-		self.follows_me = userdict['followsYou'] #: Whether or not this user follows the currently authenticated user, false if not authenticated
-		self.is_blocked = userdict['blocked'] #: Whether or not the currently authenticated user has blocked this user, false if not authenticated
-		self.extras = userdict['features'] #: Additional features that were enabled for this user
-		self.identities = userdict['identities'] #: This user's linked identities
+		self.id = userdict['id'] #: int: The unique identifier of this user
+		self.display_name = userdict['displayName'] #: str: The display name of this user
+		self.username = userdict['username'] #: str: The username/"@-handle" of this user
+		self.avatar_url = userdict['avatarURL'] #: str: The URL of this user's avatar
+		self.header = userdict['header'] #: str: The URL of this user's header image
+		self.bio = userdict['bio'] #: str: The biography of this user
+		self.birthday = userdict['birthday'] #: str: The birthday date of this user in the format "Y-m-d"
+		self.privacy_level = userdict['privacyLevel'] #: str: The privacy level of this user, one of these values; PUBLIC / PRIVATE / CLOSED
+		self.time_created = userdict['time'] #: str: The timestamp of when this user was created
+		self.is_verified = userdict['verified'] #: bool: Whether or not this user has a verified badge
+		self.is_suspended = userdict['suspended'] #: bool: Whether or not this user's account was suspended
+		self.total_posts = userdict['totalPostCount'] #: int: The total amount of feed entries this user has created
+		self.total_following = userdict['followingCount'] #: int: The amount of users this user follows
+		self.total_followers = userdict['followerCount'] #: int: The amount of users that follow this user
+		self.total_favorites = userdict['favoritesCount'] #: int: The amount of posts this user has favorited
+		self.follows_me = userdict['followsYou'] #: bool: Whether or not this user follows the currently authenticated user, false if not authenticated
+		self.is_blocked = userdict['blocked'] #: bool: Whether or not the currently authenticated user has blocked this user, false if not authenticated
+		self.extras = userdict['features'] #: list: Additional features that were enabled for this user
+		self.identities = userdict['identities'] #: :obj:`LinkedAccount`: This user's linked identities
 		self.bot = bot
 
 	def follow(self):
