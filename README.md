@@ -24,3 +24,7 @@ from qpy import Qpost
 bot = Qpost("TOKEN")
 bot.post_status("Sent from Samsung Smart Fridge")
 ```
+
+## Documentations (WIP)
+
+- [Read The Docs](https://qpost.rtfd.io)

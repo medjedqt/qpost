@@ -37,8 +37,12 @@ Example
 	:maxdepth: 2
 	
 	intro
-	examples
 	qpost
+	block
+	favorite
 	feed
+	follow
+	followrequest
+	notification
 	media
 	user
