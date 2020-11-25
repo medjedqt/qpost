@@ -59,7 +59,7 @@ class Qpost:
 		"""Gets notifications for the user
 
 		Returns:
-			list[Notification]
+			list[:obj:`Notification`]
 		"""
 		params = {'max': max_}
 		endpoint = '/notifications'
@@ -78,10 +78,10 @@ class Qpost:
 		'''Gets a User object by their username
 		
 		Args:
-			user (str): username of the user
+			user: username of the user
 
 		Returns:
-			User
+			:obj:`User`
 		'''
 		endpoint = '/user'
 		params = {'user': user}
@@ -93,10 +93,10 @@ class Qpost:
 		'''Creates a new FeedEntry with either the type POST or REPLY, depending on whether the parent parameter is present
 		
 		Args:
-			message (str): Content to be sent
-			is_nsfw (bool, optional): A flag to mark your content as nsfw. Default to False
-			attachments (list, optional): A list consisting of base64 strings (can be constructed with MediaBuilder)
-			parent (int, optional): id of a status to be replied to
+			message: Content to be sent
+			is_nsfw: A flag to mark your content as nsfw. Default to False
+			attachments: A list consisting of base64 strings (can be constructed with MediaBuilder)
+			parent: id of a status to be replied to
 		
 		Returns:
 			:obj:`FeedEntry`
@@ -115,7 +115,7 @@ class Qpost:
 		'''Deletes a specific FeedEntry by it's ID (type has to be POST or REPLY)
 		
 		Args:
-			id_ (int): id of the status to be removed
+			id_: id of the status to be removed
 		'''
 		endpoint = '/status'
 		params = {'id': id_}
@@ -126,10 +126,10 @@ class Qpost:
 		'''Gets a specific FeedEntry by it's ID (type has to be POST or REPLY)
 		
 		Args:
-			id_ (int): id of the status to get
+			id_: id of the status to get
 		
 		Returns:
-			FeedEntry
+			:obj:`FeedEntry`
 		'''
 		endpoint = '/status'
 		params = {'id': id_}
@@ -141,7 +141,7 @@ class Qpost:
 		'''Creates a new Block from the current user to a specific user
 		
 		Args:
-			targetid (int): id of a User to be blocked
+			targetid: id of a User to be blocked
 		'''
 		endpoint = '/block'
 		params = {'target': targetid}
@@ -152,7 +152,7 @@ class Qpost:
 		'''Deletes a Block from the current user to a specific user
 		
 		Args:
-			targeitd (id): id of a blocked User to be unblocked
+			targetid: id of a blocked User to be unblocked
 		'''
 		endpoint = '/block'
 		params = {'target': targetid}
@@ -163,7 +163,7 @@ class Qpost:
 		'''Get information of a block created by the current user, targeting a specific user
 		
 		Returns:
-			Block
+			:obj:`Block`
 		'''
 		endpoint = '/block'
 		params = {'target': targetid}
@@ -175,7 +175,7 @@ class Qpost:
 		'''Gets all blocked users for the current user
 		
 		Args:
-			max_ (int): The maximum blocks to look for
+			max_: The maximum blocks to look for
 		
 		Returns:
 			list[:obj:`Notification`]
@@ -190,10 +190,10 @@ class Qpost:
 		'''Creates a new Favorite from the current user to a specific FeedEntry
 		
 		Args:
-			feedid (int): id of the status to be favorited
+			feedid: id of the status to be favorited
 		
 		Returns:
-			Favorite
+			:obj:`Favorite`
 		'''
 		endpoint = '/favorite'
 		params = {'post': feedid}
@@ -205,7 +205,7 @@ class Qpost:
 		'''Deletes a Favorite from the current user to a specific FeedEntry
 		
 		Args:
-			feedid (int): The ID of the target FeedEntry
+			feedid: The ID of the target FeedEntry
 		'''
 		endpoint = '/favorite'
 		params = {'post': feedid}
@@ -216,8 +216,8 @@ class Qpost:
 		'''Gets all created favorites for a specific :obj:`User`
 		
 		Args:
-			userid (int): The ID of the user to look for
-			max_ (int): The maximum ID for favorites to look for
+			userid: The ID of the user to look for
+			max_: The maximum ID for favorites to look for
 		
 		Returns:
 			list[:obj:`Favorite`]
@@ -232,10 +232,10 @@ class Qpost:
 		'''Gets entries on a feed, by specific parameters
 		
 		Args:
-			userid (int): The ID of the user to filter the feed entries by
-			max_ (int): The maximum ID for feed entries to look for (can not be combined with min\_)
-			min_ (int): The minimum ID for feed entries to look for (can not be combined with max\_)
-			type_ (str, optional): The type of feed entries to load, either posts or replies, defaults to posts
+			userid: The ID of the user to filter the feed entries by
+			max_: The maximum ID for feed entries to look for (can not be combined with min\_)
+			min_: The minimum ID for feed entries to look for (can not be combined with max\_)
+			type_: The type of feed entries to load, either posts or replies, defaults to posts
 		
 		Returns:
 			list[:obj:`FeedEntry`]
@@ -253,8 +253,8 @@ class Qpost:
 		'''Gets info about a specific follow relationship
 		
 		Args:
-			from_ (int): The ID of the sending :obj:`User`
-			to (int): The ID of the target :obj:`User`
+			from_: The ID of the sending :obj:`User`
+			to: The ID of the target :obj:`User`
 		
 		Returns:
 			:obj:`Follow`
@@ -273,9 +273,9 @@ class Qpost:
 		'''Gets all follow relationships for a specific user
 		
 		Args:
-			from_ (int): The ID of the user to look for
-			to (int): The ID of the user to look for
-			max_ (int, optional): The maximum ID for follows to look for
+			from_: The ID of the user to look for
+			to: The ID of the user to look for
+			max_: The maximum ID for follows to look for
 		
 		Returns:
 			list[:obj:`Follow`]
@@ -290,7 +290,7 @@ class Qpost:
 		'''Creates a new Follow from the current user to a specific user
 		
 		Args:
-			to (int): The ID of the target :obj:`User`
+			to: The ID of the target :obj:`User`
 		'''
 		endpoint = '/follow'
 		params = {'to': to}
@@ -301,7 +301,7 @@ class Qpost:
 		'''Deletes a follow relationship from the current user to a specific FeedEntry
 		
 		Args:
-			to (int): The ID of the target :obj:`User`
+			to: The ID of the target :obj:`User`
 		'''
 		endpoint = '/follow'
 		params = {'to': to}
@@ -312,9 +312,9 @@ class Qpost:
 		'''Gets all followers, the current user follows for the target user
 		
 		Args:
-			targetid (int): The ID of the target user
-			offset (int, optional): The amount of users to skip in the query
-			limit (int, optional): The maximum amount of users to return
+			targetid: The ID of the target user
+			offset: The amount of users to skip in the query
+			limit: The maximum amount of users to return
 		
 		Returns:
 			list[:obj:`User`]
@@ -339,7 +339,7 @@ class Qpost:
 		'''Accepts a follow request
 		
 		Args:
-			id_ (int): The ID of the target FollowRequest
+			id_: The ID of the target FollowRequest
 		'''
 		self.__follow_request_action(id_, "accept")
 	
@@ -347,7 +347,7 @@ class Qpost:
 		'''Declines a follow request
 		
 		Args:
-			id_ (int): The ID of the target FollowRequest
+			id_: The ID of the target FollowRequest
 		'''
 		self.__follow_request_action(id_, "decline")
 	
@@ -355,7 +355,7 @@ class Qpost:
 		'''Gets all open follow requests for a specific user
 		
 		Args:
-			id_ (int): The maximum ID for follow requests to look for
+			id_: The maximum ID for follow requests to look for
 		
 		Returns:
 			list[:obj:`FollowRequest`]
@@ -370,7 +370,7 @@ class Qpost:
 		'''Gets all replies to the specified status
 
 		Args:
-			feedid (int): The ID of the status to look for
+			feedid: The ID of the status to look for
 			page: Used for pagination
 		
 		Returns:
@@ -398,9 +398,9 @@ class Qpost:
 		'''Searches for specific users on qpost
 		
 		Args:
-			query (str): The search query to use
-			offset (int, optional): The offset to use for the query
-			limit (int, optional): The maximum objects to return
+			query: The search query to use
+			offset: The offset to use for the query
+			limit: The maximum objects to return
 		
 		Returns:
 			list[:obj:`User`]
@@ -412,9 +412,9 @@ class Qpost:
 		'''Searches for specific posts on qpost
 		
 		Args:
-			query (str): The search query to use
-			offset (int, optional): The offset to use for the query
-			limit (int, optional): The maximum objects to return
+			query: The search query to use
+			offset: The offset to use for the query
+			limit: The maximum objects to return
 		
 		Returns:
 			list[:obj:`FeedEntry`]
@@ -426,7 +426,7 @@ class Qpost:
 		'''Creates a new share from the current user to a specific FeedEntry
 		
 		Args:
-			postid (int): The ID of the target FeedEntry
+			postid: The ID of the target FeedEntry
 		
 		Returns:
 			:obj:`FeedEntry`
@@ -441,7 +441,7 @@ class Qpost:
 		'''Deletes a share from the current user to a specific FeedEntry
 		
 		Args:
-			postid (int): The ID of the target FeedEntry (parent)
+			postid: The ID of the target FeedEntry (parent)
 		'''
 		endpoint = '/share'
 		params = {'post': postid}

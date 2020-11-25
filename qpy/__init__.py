@@ -16,4 +16,4 @@ from .favorite import Favorite
 from .feed import FeedEntry, MediaFile, MediaBuilder
 from .follow import Follow, FollowRequest
 from .notification import Notification
-from .user import User
+from .user import User, LinkedAccount

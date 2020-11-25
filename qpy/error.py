@@ -3,5 +3,5 @@ class QBaseError(Exception):
 
 class QHTTPException(QBaseError):
 	def __init__(self, resp):
-		message = resp.json()['error']
+		message: str = resp.json()['error']
 		super().__init__(message)

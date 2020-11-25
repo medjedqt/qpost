@@ -42,6 +42,7 @@ Example
 	favorite
 	feed
 	follow
+	linkedacc
 	followrequest
 	notification
 	media
