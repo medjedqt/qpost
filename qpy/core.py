@@ -111,28 +111,28 @@ class Qpost:
 		resp = self.__request(endpoint, params, method, 'json')
 		return FeedEntry(resp.json(), self)
 	
-	def delete_status(self, id_: int):
+	def delete_status(self, feedid: int):
 		'''Deletes a specific FeedEntry by it's ID (type has to be POST or REPLY)
 		
 		Args:
-			id_: id of the status to be removed
+			feedid: id of the status to be removed
 		'''
 		endpoint = '/status'
-		params = {'id': id_}
+		params = {'id': feedid}
 		method = 'DELETE'
 		self.__request(endpoint, params, method, 'json')
 	
-	def get_status(self, id_: int):
+	def get_status(self, feedid: int):
 		'''Gets a specific FeedEntry by it's ID (type has to be POST or REPLY)
 		
 		Args:
-			id_: id of the status to get
+			feedid: id of the status to get
 		
 		Returns:
 			:obj:`FeedEntry`
 		'''
 		endpoint = '/status'
-		params = {'id': id_}
+		params = {'id': feedid}
 		method = 'GET'
 		resp = self.__request(endpoint, params, method, 'params')
 		return FeedEntry(resp.json(), self)
@@ -335,27 +335,27 @@ class Qpost:
 		method = 'DELETE'
 		resp = self.__request(endpoint, params, method, 'json')
 	
-	def accept_follow_request(self, id_: int):
+	def accept_follow_request(self, requestid: int):
 		'''Accepts a follow request
 		
 		Args:
-			id_: The ID of the target FollowRequest
+			requestid: The ID of the target FollowRequest
 		'''
-		self.__follow_request_action(id_, "accept")
+		self.__follow_request_action(requestid, "accept")
 	
-	def decline_follow_request(self, id_: int):
+	def decline_follow_request(self, requestid: int):
 		'''Declines a follow request
 		
 		Args:
-			id_: The ID of the target FollowRequest
+			requestid: The ID of the target FollowRequest
 		'''
-		self.__follow_request_action(id_, "decline")
+		self.__follow_request_action(requestid, "decline")
 	
 	def get_follow_requests(self, max_: int):
 		'''Gets all open follow requests for a specific user
 		
 		Args:
-			id_: The maximum ID for follow requests to look for
+			max_: The maximum ID for follow requests to look for
 		
 		Returns:
 			list[:obj:`FollowRequest`]
