@@ -54,10 +54,10 @@ class User:
 class LinkedAccount:
 	def __init__(self, linkdict):
 		'''Represents a qpost LinkedAccount object'''
-		self.id: int = linkdict['id'] #: int: The unique identifier of this linked account
-		self.service: str = linkdict['service'] #: str: The service that this linked account is a part of, one of these values; DISCORD / TWITCH / TWITTER / MASTODON / LASTFM / SPOTIFY / INSTAGRAM / REDDIT / YOUTUBE
-		self.linked_user_id: str = linkdict['linkedUserId'] #: str: The id of this account in the third-party service's system
-		self.linked_user_name: str = linkdict['linkedUserName'] #: str: The name of this account in the third-party service's system
-		self.linked_user_avatar: str = linkdict['linkedUserAvatar'] #: str: The URL of this account's profile image
-		self.time_created: str = linkdict['time'] #: str: The timestamp of when this account was created
-		self.last_updated: str = linkdict['lastUpdate'] #: str: The timestamp of when this account was last updated
+		self.id: int = linkdict['id'] #: The unique identifier of this linked account
+		self.service: str = linkdict['service'] #: The service that this linked account is a part of, one of these values; DISCORD / TWITCH / TWITTER / MASTODON / LASTFM / SPOTIFY / INSTAGRAM / REDDIT / YOUTUBE
+		self.linked_user_id: str = linkdict['linkedUserId'] #: The id of this account in the third-party service's system
+		self.linked_user_name: str = linkdict['linkedUserName'] #: The name of this account in the third-party service's system
+		self.linked_user_avatar: str = linkdict['linkedUserAvatar'] #: The URL of this account's profile image
+		self.time_created: str = linkdict['time'] #: The timestamp of when this account was created
+		self.last_updated: str = linkdict['lastUpdate'] #: The timestamp of when this account was last updated
